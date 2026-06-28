@@ -3,13 +3,14 @@ class Wrex < Formula
 
   desc "Self-hosted autonomous AI agent with swarm support"
   homepage "https://gitlab.com/hitdevs/wrex"
-  url "https://gitlab.com/hitdevs/wrex/-/archive/v0.1.0/wrex-v0.1.0.tar.gz"
-  sha256 "3aed236c63a368c3986a5e2613b5a8fa784972d25439fbdfaed8b26b783197d7"
+  url "https://gitlab.com/hitdevs/wrex/-/archive/v0.2.0/wrex-v0.2.0.tar.gz"
+  sha256 "66a9edec0d00d8743bd06365add8b37890283abfad47ece2be5cbda66fb7b12a"
   license "MIT"
   head "https://gitlab.com/hitdevs/wrex.git", branch: "main"
 
-  depends_on "python@3.11"
   depends_on "rust" => :build
+  depends_on "libyaml"
+  depends_on "python@3.11"
 
   # --- pure-Python wheels (platform-independent) ---
 
@@ -125,6 +126,6 @@ class Wrex < Formula
   end
 
   test do
-    assert_match "wrex 0.1.0", shell_output("#{bin}/wrex --version")
+    assert_match "wrex 0.2.0", shell_output("#{bin}/wrex --version")
   end
 end
