@@ -9,6 +9,7 @@ class Wrex < Formula
   head "https://gitlab.com/hitdevs/wrex.git", branch: "main"
 
   depends_on "python@3.11"
+  depends_on "rust" => :build
 
   # --- pure-Python wheels (platform-independent) ---
 
@@ -30,6 +31,11 @@ class Wrex < Formula
   resource "certifi" do
     url "https://files.pythonhosted.org/packages/ef/2f/c5464532e965badff2f4c4c1a3a83f5697f0d7c407ed0cda44aaa99bb451/certifi-2026.6.17-py3-none-any.whl"
     sha256 "2227dcbaafe0d2f59279d1762ddddc37783ed4354594f194ffc31d20f41fc3db"
+  end
+
+  resource "colorama" do
+    url "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl"
+    sha256 "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
   end
 
   resource "distro" do
@@ -62,6 +68,13 @@ class Wrex < Formula
     sha256 "7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2"
   end
 
+  # jiter and pydantic-core are Rust extensions; sdists are required since
+  # Homebrew's virtualenv helper forces --no-binary=:all: for all resources.
+  resource "jiter" do
+    url "https://files.pythonhosted.org/packages/66/b5/55f06bb281d92fb3cc86d14e1def2bd908bb77693183e7cb1f5a3c388b0c/jiter-0.15.0.tar.gz"
+    sha256 "4251acc80e2b7c9b7b8823456ea0fceeb0734dac2df7636d3c711b38476b5a76"
+  end
+
   resource "openai" do
     url "https://files.pythonhosted.org/packages/a3/d2/ba767f4bbb30776c03d40906a2d3afad716a165ffa1771fc23b8992f7920/openai-2.43.0-py3-none-any.whl"
     sha256 "65a670b54fadf2268c9e1330133373c963eb779ee969e5cbad419ec2c21dce97"
@@ -72,9 +85,19 @@ class Wrex < Formula
     sha256 "45a282cde31d808236fd7ea9d919b128653c8b38b393d1c4ab335c62924d9aba"
   end
 
+  resource "pydantic-core" do
+    url "https://files.pythonhosted.org/packages/9d/56/921726b776ace8d8f5db44c4ef961006580d91dc52b803c489fafd1aa249/pydantic_core-2.46.4.tar.gz"
+    sha256 "62f875393d7f270851f20523dd2e29f082bcc82292d66db2b64ea71f64b6e1c1"
+  end
+
   resource "python-dotenv" do
     url "https://files.pythonhosted.org/packages/0b/d7/1959b9648791274998a9c3526f6d0ec8fd2233e4d4acce81bbae76b44b2a/python_dotenv-1.2.2-py3-none-any.whl"
     sha256 "1d8214789a24de455a8b8bd8ae6fe3c6b69a5e3d64aa8a8e5d68e694bbcb285a"
+  end
+
+  resource "pyyaml" do
+    url "https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2/pyyaml-6.0.3.tar.gz"
+    sha256 "d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f"
   end
 
   resource "sniffio" do
@@ -95,47 +118,6 @@ class Wrex < Formula
   resource "typing-inspection" do
     url "https://files.pythonhosted.org/packages/dc/9b/47798a6c91d8bdb567fe2698fe81e0c6b7cb7ef4d13da4114b41d239f65d/typing_inspection-0.4.2-py3-none-any.whl"
     sha256 "4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7"
-  end
-
-  resource "colorama" do
-    url "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl"
-    sha256 "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
-  end
-
-  # --- native extension wheels (architecture-specific, Python 3.11) ---
-
-  on_arm do
-    resource "jiter" do
-      url "https://files.pythonhosted.org/packages/7f/82/2d2551829b082f4b6d82b9f939b031fb808a10aab1ec0664f82e150bb9a2/jiter-0.15.0-cp311-cp311-macosx_11_0_arm64.whl"
-      sha256 "1303d4d68a9b051ea90502402063ecf3807da00ad2affa19ca1ae3b90b3c5f67"
-    end
-
-    resource "pydantic-core" do
-      url "https://files.pythonhosted.org/packages/ae/6f/aa064a3e74b5745afbdf250594f38e7ead05e2d651bcb35994b9417a0d4d/pydantic_core-2.46.4-cp311-cp311-macosx_11_0_arm64.whl"
-      sha256 "e0d65b8c354be7fb5f720c3caa8bc940bc2d20ce749c8e06135f07f8ed95dd7c"
-    end
-
-    resource "pyyaml" do
-      url "https://files.pythonhosted.org/packages/16/19/13de8e4377ed53079ee996e1ab0a9c33ec2faf808a4647b7b4c0d46dd239/pyyaml-6.0.3-cp311-cp311-macosx_11_0_arm64.whl"
-      sha256 "652cb6edd41e718550aad172851962662ff2681490a8a711af6a4d288dd96824"
-    end
-  end
-
-  on_intel do
-    resource "jiter" do
-      url "https://files.pythonhosted.org/packages/e4/13/daa722f5765c393576f466378f9dfd29d77c9bed939e0688f96afa3601ea/jiter-0.15.0-cp311-cp311-macosx_10_12_x86_64.whl"
-      sha256 "0f862193b8696249d22ec433e85fd2ab0ad9596bc3e45e6c0bc55e8aeba97be2"
-    end
-
-    resource "pydantic-core" do
-      url "https://files.pythonhosted.org/packages/5c/fa/6d7708d2cfc1a832acb6aeb0cd16e801902df8a0f583bb3b4b527fde022e/pydantic_core-2.46.4-cp311-cp311-macosx_10_12_x86_64.whl"
-      sha256 "0e96592440881c74a213e5ad528e2b24d3d4f940de2766bed9010ab1d9e51594"
-    end
-
-    resource "pyyaml" do
-      url "https://files.pythonhosted.org/packages/6d/16/a95b6757765b7b031c9374925bb718d55e0a9ba8a1b6a12d25962ea44347/pyyaml-6.0.3-cp311-cp311-macosx_10_13_x86_64.whl"
-      sha256 "44edc647873928551a01e7a563d7452ccdebee747728c1080d881d68af7b997e"
-    end
   end
 
   def install
