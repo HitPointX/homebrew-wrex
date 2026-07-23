@@ -3,8 +3,8 @@ class Wrex < Formula
 
   desc "Self-hosted autonomous AI agent with swarm support"
   homepage "https://gitlab.com/hitdevs/wrex"
-  url "https://gitlab.com/hitdevs/wrex/-/archive/v0.3.0/wrex-v0.3.0.tar.gz"
-  sha256 "7caa0fec5b9002d2e521b9d60a53cf3e0031c9abbce5dd51415d1dcc7ce44ace"
+  url "https://gitlab.com/hitdevs/wrex/-/archive/v0.3.1/wrex-v0.3.1.tar.gz"
+  sha256 "585ef07fd3d399ef29ec343f36275c8d77556ea0eb0e24bb76f3c84b6351f46a"
   license "MIT"
   head "https://gitlab.com/hitdevs/wrex.git", branch: "main"
 
@@ -126,6 +126,6 @@ class Wrex < Formula
   end
 
   test do
-    assert_match "wrex 0.3.0", shell_output("#{bin}/wrex --version")
+    assert_match "wrex 0.3.1", shell_output("#{bin}/wrex --version")
   end
 end
